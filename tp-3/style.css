@@ -1,1 +1,37 @@
-
+/* Centrar el título <h1> */
+h1 {
+	text-align: center;
+}
+/* Fuente con serifas para todos los párrafos */
+p {
+	font-family: serif;
+}
+/* Fondo #CEE para #primer-parrafo */
+#primer-parrafo {
+	background-color: #CEE;
+}
+/* Color #933 para los <em> dentro del primer párrafo */
+#primer-parrafo em {
+	color: #933;
+}
+/* Todos los links con outline */
+a {
+	outline: 1px solid #333;
+}
+/* p.fuente con opacidad 100% */
+p.fuente {
+	opacity: 100%;
+}
+/* Párrafos sin id sin sombra */
+p:not([id]) {
+	text-shadow: none;
+}
+/* Bonus: color negro para p.fuente */
+p.fuente {
+	color: #000;
+}
+/* Bonus: .complicado en negrita y color #C62 */
+.complicado {
+	font-weight: bold;
+	color: #C62;
+}
