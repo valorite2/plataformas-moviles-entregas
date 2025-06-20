@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Viaje Ideal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=travel" />
+</head>
+
+<body>
+    <!-- header dylan -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav">
+                <div class="nav-brand">
+                    <i class="fas fa-globe"></i>
+                    <span>Travel Pack</span>
+                <button class="nav-toggle" aria-label="Abrir menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="logos"><a href="#"><i class="fa-solid fa-plane"></i> Vuelos</a></li>
+                    <li class="logos"><a href="#"><i class="fa-solid fa-hotel"></i> Hoteles</a></li>
+                    <li class="logos"><a href="#"><i class="fa-solid fa-car"></i> Autos</a></li>
+                    <li class="logos"><a href="#"><i class="fa-solid fa-ticket"></i> Pasajes</a></li>
+                    <li class="user-logo"><a href="login.html"><i class="fas-solid fa-user-circle"></i> Mi Cuenta</a></li>
+                </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!--buscador central del la pagina web-->
+    <main class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">
+                Encontra paquetes increibles
+            </h1>
+            <div class="buscador-container">
+                <div class="buscador-cuadro">
+                    <h2>Paquetes turísticos</h2>
+                    <div class="formulario">
+                        <input type="text" placeholder="Origen" id="origen">
+                        <input type="text" placeholder="Destino" id="destino">
+                        <input type="date" id="fecha-entrada">
+                        <input type="date" id="fecha-salida">
+                        <div class="habitaciones">
+                            <label><img src="https://img.icons8.com/ios-filled/20/000000/bed.png" /> 1</label>
+                            <label><img src="https://img.icons8.com/ios-filled/20/000000/user.png" /> 2</label>
+                        </div>
+                        <button onclick="buscar()">Buscar</button>
+                    </div>
+                </div>
+            </div>
+    </main>
+
+
+    <!--paquetes de viajes-->
+
+    <div class="container-pack">
+     <div class="package-card">
+        <div class="image-container">
+            <img src="rio de janeiro.webp" alt="Paquetes a Río de Janeiro">
+            <div class="duration">10 DÍAS / 9 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a Río de Janeiro</h3>
+                <div class="rating">
+                    <span class="score">8.3</span>
+                    <span class="stars">★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel + Vuelo</div>
+            </div>
+            <div class="price-info">
+                <div class="final-price">$504.310</div>
+                <div class="price-details">No vas a pagar Percepción RG5617</div>
+            </div>
+          
+        </div>
+    </div>
+
+    <div class="package-card">
+        <div class="image-container">
+            <img src="bariloche.webp" alt="Paquetes a San Carlos de Bariloche">
+            <div class="duration">8 DÍAS / 7 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a San Carlos de Bariloche</h3>
+                <div class="rating">
+                    <span class="score">8.8</span>
+                    <span class="stars">★★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel + Vuelo</div>
+            </div>
+            <div class="price-info">
+                <div class="final-price">$399.596</div>
+                <div class="price-details">Incluye impuestos, tasas y cargos</div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="package-card">
+        <div class="image-container">
+            <img src="miami.webp" alt="Paquetes a Miami">
+            <div class="duration">7 DÍAS / 6 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a Miami</h3>
+                <div class="rating">
+                    <span class="score">8.5</span>
+                    <span class="stars">★★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel + Vuelo + Auto</div>
+            </div>
+            <div class="price-info">
+                <div class="savings">Ahorrás $250.000</div>
+                <div class="original-price"><s>$1.200.000</s></div>
+                <div class="final-price">$950.000</div>
+                <div class="price-details">Incluye impuestos, tasas y cargos</div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="package-card">
+        <div class="image-container">
+            <img src="Madrid.webp" alt="Paquetes a Madrid">
+            <div class="duration">12 DÍAS / 11 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a Madrid</h3>
+                <div class="rating">
+                    <span class="score">9.0</span>
+                    <span class="stars">★★★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel + Vuelo + Tours</div>
+            </div>
+            <div class="price-info">
+                <div class="final-price">$1.500.000</div>
+                <div class="price-details">Incluye impuestos, tasas y cargos</div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="package-card">
+        <div class="image-container">
+            <img src="Ushuaia.webp" alt="Paquetes a Ushuaia">
+            <div class="duration">6 DÍAS / 5 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a Ushuaia</h3>
+                <div class="rating">
+                    <span class="score">8.7</span>
+                    <span class="stars">★★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel + Vuelo + Excursiones</div>
+            </div>
+            <div class="price-info">
+                <div class="savings">Ahorrás $80.000</div>
+                <div class="original-price"><s>$450.000</s></div>
+                <div class="final-price">$370.000</div>
+                <div class="price-details">Incluye impuestos, tasas y cargos</div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="package-card">
+        <div class="image-container">
+            <img src="Cancún.jpg" alt="Paquetes a Cancún">
+            <div class="duration">9 DÍAS / 8 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a Cancún</h3>
+                <div class="rating">
+                    <span class="score">9.2</span>
+                    <span class="stars">★★★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel All Inclusive + Vuelo</div>
+            </div>
+            <div class="price-info">
+                <div class="final-price">$1.850.000</div>
+                <div class="price-details">Incluye impuestos, tasas y cargos</div>
+            </div>
+        </div>
+    </div>
+    <div class="package-card">
+        <div class="image-container">
+            <img src="roma.webp" alt="Paquetes a Roma">
+            <div class="duration">8 DÍAS / 7 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a Roma</h3>
+                <div class="rating">
+                    <span class="score">9.1</span>
+                    <span class="stars">★★★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel + Vuelo + City Tour</div>
+            </div>
+            <div class="price-info">
+                <div class="savings">Ahorrás $180.000</div>
+                <div class="original-price"><s>$1.350.000</s></div>
+                <div class="final-price">$1.170.000</div>
+                <div class="price-details">Incluye impuestos, tasas y cargos</div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="package-card">
+        <div class="image-container">
+            <img src="Patagonia.webp" alt="Paquetes a la Patagonia Argentina">
+            <div class="duration">7 DÍAS / 6 NOCHES</div>
+        </div>
+        <div class="package-details">
+            <div class="package-info">
+                <div class="package-type">PAQUETE</div>
+                <h3 class="package-title">Paquetes a Patagonia Argentina</h3>
+                <div class="rating">
+                    <span class="score">8.9</span>
+                    <span class="stars">★★★★</span>
+                </div>
+                <div class="departure">Saliendo desde Buenos Aires</div>
+                <div class="includes">Hotel + Vuelo + Excursiones</div>
+            </div>
+            <div class="price-info">
+                <div class="final-price">$480.000</div>
+                <div class="price-details">Incluye impuestos, tasas y cargos</div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
+
+    <!-- Sección de información -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon blue">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3>Vuelos</h3>
+                    <p>Reserva vuelos nacionales e internacionales con las mejores aerolíneas del mundo.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon green">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3>Hoteles</h3>
+                    <p>Alojamientos desde hostels hasta resorts de lujo en destinos únicos.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon purple">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Alquiler de Autos</h3>
+                    <p>Alquila vehículos en cualquier destino para explorar con total libertad.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon orange">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Seguro de Viaje</h3>
+                    <p>Protege tu inversión con nuestros seguros de viaje completos.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon teal">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3>Atención 24/7</h3>
+                    <p>Soporte técnico y asistencia al viajero disponible las 24 horas.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon pink">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Pagos Flexibles</h3>
+                    <p>Múltiples opciones de pago y planes de financiación disponibles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-globe"></i>
+                        <span>ViajesPro</span>
+                    </div>
+                    <p>Tu compañero de confianza para descubrir el mundo. Creamos experiencias únicas que duran toda la
+                        vida.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#paquetes">Paquetes Turísticos</a></li>
+                        <li><a href="#servicios">Vuelos</a></li>
+                        <li><a href="#servicios">Hoteles</a></li>
+                        <li><a href="#servicios">Alquiler de Autos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Atención al Cliente</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@viajespro.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Travel St, Ciudad</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 ViajesPro. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <script src="scrip.js"></script>
+</body>
+
+</html>
