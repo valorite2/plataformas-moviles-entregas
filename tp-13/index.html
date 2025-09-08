@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéDex</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            width: 150px;
+            height: 150px;
+            margin: auto;
+        }
+        .pokemon-card {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .pokemon-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .dark-mode .card {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border: 1px solid #333;
+        }
+        .dark-mode .modal-content {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border: 1px solid #333;
+        }
+        #modalImage {
+            width: 200px;
+            height: 200px;
+        }
+        .dark-mode .color {
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <div class="container my-4">
+        <h1 class="text-center mb-4 color">Mi PokéDex</h1>
+        <div class="input-group mb-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar Pokémon por nombre o número...">
+            <button class="btn btn-primary" id="searchButton">Buscar</button>
+        </div>
+        <div class="d-flex justify-content-between mb-4">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+                <label class="form-check-label color" for="darkModeSwitch">Modo oscuro</label>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="generationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtrar por Generación
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="generationDropdown">
+                    <li><a class="dropdown-item" href="#" data-gen-id="0">Todos</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="1">Generación 1</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="2">Generación 2</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="3">Generación 3</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="4">Generación 4</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="5">Generación 5</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="6">Generación 6</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="7">Generación 7</a></li>
+                    <li><a class="dropdown-item" href="#" data-gen-id="8">Generación 8</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="loadingSpinner" class="d-flex justify-content-center my-5 d-none">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+        <div id="pokemonGrid" class="row row-cols-1 row-cols-md-3 g-4"></div>
+        <div class="text-center my-4">
+            <button id="loadMoreButton" class="btn btn-primary d-none">Cargar más Pokémon</button>
+        </div>
+    </div>
+    <div class="modal fade" id="pokemonModal" tabindex="-1" aria-labelledby="pokemonModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pokemonModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" alt="Imagen de Pokémon" class="d-block mx-auto mb-3">
+                    <p><strong>Número de PokéDex:</strong> <span id="modalNumber"></span></p>
+                    <p><strong>Tipos:</strong> <span id="modalTypes"></span></p>
+                    <p><strong>Habilidades:</strong> <span id="modalAbilities"></span></p>
+                    <p><strong>Movimientos:</strong> <span id="modalMoves"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const pokemonGrid = document.getElementById('pokemonGrid');
+        const loadMoreButton = document.getElementById('loadMoreButton');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const darkModeSwitch = document.getElementById('darkModeSwitch');
+        const generationDropdown = document.getElementById('generationDropdown');
+        let allPokemon = [];
+        let displayedPokemonCount = 0;
+        const pokemonModal = new bootstrap.Modal(document.getElementById('pokemonModal'));
+
+        const getPokemonData = async (url) => {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+        };
+
+        const createPokemonCard = (pokemon) => {
+            const card = document.createElement('div');
+            card.classList.add('col');
+            card.innerHTML = `
+                <div class="card h-100 text-center pokemon-card" onclick="showPokemonDetails(${pokemon.id})">
+                    <img src="${pokemon.sprites.front_default}" class="card-img-top mt-3" alt="${pokemon.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h5>
+                        <p class="card-text">Tipos: ${pokemon.types.map(type => type.type.name).join(', ')}</p>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); showPokemonDetails(${pokemon.id})">Ver más</button>
+                    </div>
+                </div>
+            `;
+            return card;
+        };
+
+        const displayPokemon = async (pokemonList, clear = false) => {
+            if (clear) {
+                pokemonGrid.innerHTML = '';
+            }
+            loadingSpinner.classList.remove('d-none');
+            const pokemonPromises = pokemonList.map(p => getPokemonData(p.url));
+            const pokemonResults = await Promise.all(pokemonPromises);
+
+            pokemonResults.forEach(pokemon => {
+                const card = createPokemonCard(pokemon);
+                pokemonGrid.appendChild(card);
+            });
+            loadingSpinner.classList.add('d-none');
+        };
+
+        const showPokemonDetails = async (id) => {
+            const pokemon = await getPokemonData(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            document.getElementById('pokemonModalLabel').textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+            
+            let imageUrl = pokemon.sprites.front_default;
+            if (pokemon.sprites.other['official-artwork'].front_default) {
+                imageUrl = pokemon.sprites.other['official-artwork'].front_default;
+            }
+            
+            document.getElementById('modalImage').src = imageUrl;
+            document.getElementById('modalNumber').textContent = pokemon.id;
+            document.getElementById('modalTypes').textContent = pokemon.types.map(type => type.type.name).join(', ');
+            document.getElementById('modalAbilities').textContent = pokemon.abilities.slice(0, 1).map(ability => ability.ability.name).join(', ');
+            document.getElementById('modalMoves').textContent = pokemon.moves.slice(0, 4).map(move => move.move.name).join(', ');
+            pokemonModal.show();
+        };
+
+        const loadInitialPokemon = async () => {
+            loadingSpinner.classList.remove('d-none');
+            const initialResponse = await getPokemonData('https://pokeapi.co/api/v2/pokemon?limit=898');
+            allPokemon = initialResponse.results;
+            
+            const shuffledPokemon = allPokemon.sort(() => 0.5 - Math.random());
+            
+            const initialPokemonToShow = shuffledPokemon.slice(0, 151);
+            displayedPokemonCount = 151;
+            
+            await displayPokemon(initialPokemonToShow, true);
+            loadMoreButton.classList.remove('d-none');
+        };
+
+        const loadMorePokemon = async () => {
+            loadingSpinner.classList.remove('d-none');
+            const pokemonToShow = allPokemon.slice(displayedPokemonCount, displayedPokemonCount + 50);
+            displayedPokemonCount += 50;
+
+            await displayPokemon(pokemonToShow);
+            loadingSpinner.classList.add('d-none');
+        };
+
+        const searchPokemon = async () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            if (!searchTerm) {
+                pokemonGrid.innerHTML = '';
+                loadInitialPokemon();
+                return;
+            }
+            loadingSpinner.classList.remove('d-none');
+            loadMoreButton.classList.add('d-none');
+            try {
+                const pokemon = await getPokemonData(`https://pokeapi.co/api/v2/pokemon/${searchTerm}`);
+                pokemonGrid.innerHTML = '';
+                const card = createPokemonCard(pokemon);
+                pokemonGrid.appendChild(card);
+            } catch (error) {
+                pokemonGrid.innerHTML = '<p class="text-center w-100">No se encontró el Pokémon.</p>';
+            }
+            loadingSpinner.classList.add('d-none');
+        };
+
+        const filterByGeneration = async (genId) => {
+            pokemonGrid.innerHTML = '';
+            loadMoreButton.classList.add('d-none');
+            if (genId === 0) {
+                loadInitialPokemon();
+                return;
+            }
+            loadingSpinner.classList.remove('d-none');
+            const generationData = await getPokemonData(`https://pokeapi.co/api/v2/generation/${genId}`);
+            
+            const shuffledPokemon = generationData.pokemon_species.sort(() => 0.5 - Math.random());
+            const pokemonToDisplay = shuffledPokemon.map(p => {
+                const id = p.url.split('/').slice(-2, -1)[0];
+                return { name: p.name, url: `https://pokeapi.co/api/v2/pokemon/${id}/` };
+            });
+
+            await displayPokemon(pokemonToDisplay, true);
+            loadingSpinner.classList.add('d-none');
+        };
+
+        darkModeSwitch.addEventListener('change', () => {
+            if (darkModeSwitch.checked) {
+                document.body.classList.add('dark-mode');
+                document.body.classList.remove('bg-light');
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('bg-light');
+            }
+        });
+
+        loadMoreButton.addEventListener('click', loadMorePokemon);
+        searchButton.addEventListener('click', searchPokemon);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchPokemon();
+            }
+        });
+
+        document.querySelectorAll('#generationDropdown + .dropdown-menu .dropdown-item').forEach(item => {
+            item.addEventListener('click', (event) => {
+                const genId = parseInt(event.target.dataset.genId);
+                filterByGeneration(genId);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', loadInitialPokemon);
+    </script>
+</body>
+</html>
